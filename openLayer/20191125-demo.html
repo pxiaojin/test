@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>openlayer-demo</title>
+	<link rel="stylesheet" href="./lib/v6.1.1-dist/ol.css">
+	<script type="text/javascript" src="./lib/v6.1.1-dist/ol-debug.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./lib/jquery-1.11.1.min.js"></script>
+	<style>
+		#map1 {
+			width: 80%;
+			height: 400px;
+		}
+	</style>
+</head>
+<body>
+	<p>地图1</p>
+	<div id="map1"></div>
+
+	<script type="text/javascript">
+		// 创建地图1
+      var map1 = new ol.Map({
+      			// logo: {src: '../img/face_monkey.png', href: 'http://www.openstreetmap.org/'},可设置跳转地址
+      			logo: './img/logo.png',
+	            // 设置地图图层
+	            layers: [
+	              // 创建一个使用Open Street Map地图源的瓦片图层
+	              new ol.layer.Tile({source: new ol.source.OSM()})
+	            ],
+	            // 设置显示地图的视图
+	            view: new ol.View({
+			            center: [0, 0],
+			            zoom: 2
+			        }),
+	            // 让id为map的div作为地图的容器
+	            target: 'map1'    
+	        })
+	</script>
+</body>
+</html>

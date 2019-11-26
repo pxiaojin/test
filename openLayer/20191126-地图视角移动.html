@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>openlayer-demo</title>
+	<link rel="stylesheet" href="./lib/v6.1.1-dist/ol.css">
+    <script type="text/javascript" src="./lib/v6.1.1-dist/ol-debug.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./lib/jquery-1.11.1.min.js"></script>
+	<style>
+		#map1, #map2 {
+			width: 80%;
+			height: 400px;
+		}
+	</style>
+</head>
+<body>
+	<p>地图1</p>
+    <div id="map1"></div>
+    <button id="toLeft">左移</button>
+    <button id="toUp">上移</button>
+    <button id="plus">+</button>
+    <button id="tocd">成都</button>
+
+	<script type="text/javascript">
+		// 创建地图1
+      var map1 = new ol.Map({
+      			// logo: {src: '../img/face_monkey.png', href: 'http://www.openstreetmap.org/'},可设置跳转地址
+      			logo: './img/logo.png',
+	            // 设置地图图层
+	            layers: [
+	              // 创建一个使用Open Street Map地图源的瓦片图层
+	              new ol.layer.Tile({source: new ol.source.OSM()})
+	            ],
+	            // 设置显示地图的视图
+	            view: new ol.View({
+			            // 设置成都为地图中心，此处进行坐标转换， 把EPSG:4326的坐标，转换为EPSG:3857坐标，因为ol默认使用的是EPSG:3857坐标
+                        center: ol.proj.transform([104.06, 30.67], 'EPSG:4326', 'EPSG:3857'),
+			            zoom: 10
+			        }),
+	            // 让id为map的div作为地图的容器
+	            target: 'map1'    
+	    })
+    $('#toLeft').on('click', toLeft)
+    $('#toUp').on('click', toUp)
+    $('#plus').on('click', plus)
+    $('#tocd').on('click', tocd)
+    // 向左移动
+    function toLeft() {
+            var view = map1.getView()
+            var mapCenter = view.getCenter()
+            mapCenter[0] -= 50000
+            view.setCenter(mapCenter)
+            map1.render()
+        }
+    // 向上移动地图
+    function toUp() {
+            var view = map1.getView();
+            var mapCenter = view.getCenter();
+            // 让地图中心的y值减少，即可使得地图向上移动，减少的值根据效果可自由设定
+            mapCenter[1] += 50000;
+            view.setCenter(mapCenter);
+            map1.render();
+        }
+    // 放大地图
+    function plus() {
+            var view = map1.getView();
+            // 让地图的zoom增加1，从而实现地图放大
+            view.setZoom(view.getZoom() + 1);
+        }
+    // 移动到成都
+    function tocd() {
+            var view = map1.getView();
+            // 设置地图中心为成都的坐标，即可让地图移动到成都
+            view.setCenter(ol.proj.transform([104.06, 30.67], 'EPSG:4326', 'EPSG:3857'));
+            map1.render();
+        }
+	</script>
+</body>
+</html>
